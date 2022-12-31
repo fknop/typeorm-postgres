@@ -37,8 +37,7 @@ export class PostgresSequenceExtension {
 
       async init(
         queryRunner: PostgresQueryRunner,
-        schemaBuilder: RdbmsSchemaBuilder,
-        entityMetadata: EntityMetadata[]
+        schemaBuilder: RdbmsSchemaBuilder
       ): Promise<void> {
         this.metadataTable = queryRunner.getTypeormMetadataTableName()
 
@@ -52,8 +51,7 @@ export class PostgresSequenceExtension {
 
       beforeAll(
         queryRunner: PostgresQueryRunner,
-        schemaBuilder: RdbmsSchemaBuilder,
-        entityMetadata: EntityMetadata[]
+        schemaBuilder: RdbmsSchemaBuilder
       ): Promise<SqlInMemory> {
         const sqlInMemory = new SqlInMemory()
 
@@ -83,14 +81,6 @@ export class PostgresSequenceExtension {
         sqlInMemory.downQueries.push(...sequenceQueries.downQueries)
 
         return Promise.resolve(sqlInMemory)
-      }
-
-      afterAll(
-        queryRunner: QueryRunner,
-        schemaBuilder: RdbmsSchemaBuilder,
-        entityMetadata: EntityMetadata[]
-      ): Promise<SqlInMemory> {
-        return Promise.resolve({upQueries: [], downQueries: []})
       }
 
       /**
@@ -260,6 +250,7 @@ export class PostgresSequenceExtension {
       ) {
         return (
           a.cycle !== b.cycle ||
+          a.dataType !== b.dataType ||
           // Using double equal instead of triple because of number/bigint comparisons
           a.start != b.start ||
           a.minValue != b.minValue ||
