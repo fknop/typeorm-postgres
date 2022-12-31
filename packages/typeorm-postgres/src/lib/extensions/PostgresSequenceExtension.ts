@@ -1,8 +1,11 @@
 import {RdbmsSchemaBuilderHook} from 'typeorm'
+
+// These imports are not ideal, if TypeORM decide to change the locations of these files, it will not work anymore
 import {SqlInMemory} from 'typeorm/driver/SqlInMemory'
 import {Query} from 'typeorm/driver/Query'
 import {RdbmsSchemaBuilder} from 'typeorm/schema-builder/RdbmsSchemaBuilder'
 import {PostgresQueryRunner} from 'typeorm/driver/postgres/PostgresQueryRunner'
+
 import {getPostgresMetadataArgsStorage} from '../metadata/TypeormPostgresArgsMetadata'
 import {PostgresSequenceOptions} from '../options/PostgresSequenceOptions'
 import {isNil} from '../utils/isNil'
@@ -91,13 +94,13 @@ export class PostgresSequenceExtension {
 
         const qb = await queryRunner.connection.createQueryBuilder()
 
-        qb.select()
+        const metadatas: {name: string; value: string}[] = await qb
+          .select()
           .from(this.metadataTable, 't')
-          .where(`${qb.escape('type')} = :type`, {
+          .where(`type = :type`, {
             type: METADATA_TYPE,
           })
-
-        const metadatas: {name: string; value: string}[] = await qb.getRawMany()
+          .getRawMany()
 
         const databaseSequences = allSequences.map(
           (metadata) => metadata.sequence_name
