@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`typeormPostgres Should generate proper migrations 1`] = `
+SqlInMemory {
+  "downQueries": Array [
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "DROP SEQUENCE IF EXISTS \\"sequence_one\\"",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_SEQUENCE",
+        "sequence_one",
+      ],
+      "query": "DELETE FROM \\"public\\".\\"typeorm_metadata\\" WHERE \\"type\\" = $1 AND \\"name\\" = $2",
+    },
+  ],
+  "upQueries": Array [
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "CREATE SEQUENCE \\"sequence_one\\" AS bigint START 1 MINVALUE 1 INCREMENT 1",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_SEQUENCE",
+        "sequence_one",
+        "{\\"increment\\":1,\\"name\\":\\"sequence_one\\",\\"minValue\\":1,\\"start\\":1,\\"dataType\\":\\"bigint\\"}",
+      ],
+      "query": "INSERT INTO \\"public\\".\\"typeorm_metadata\\"(\\"database\\", \\"schema\\", \\"table\\", \\"type\\", \\"name\\", \\"value\\") VALUES (DEFAULT, DEFAULT, DEFAULT, $1, $2, $3)",
+    },
+  ],
+}
+`;
+
+exports[`typeormPostgres should alter the sequence 1`] = `
+SqlInMemory {
+  "downQueries": Array [
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "ALTER SEQUENCE \\"sequence_one\\" AS bigint START 1 MINVALUE 1 INCREMENT 1",
+    },
+  ],
+  "upQueries": Array [
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "ALTER SEQUENCE \\"sequence_one\\" AS bigint START 1 MINVALUE 1 INCREMENT 10",
+    },
+  ],
+}
+`;
+
+exports[`typeormPostgres should delete the sequence 1`] = `
+SqlInMemory {
+  "downQueries": Array [
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "CREATE SEQUENCE \\"sequence_one\\" AS bigint START 1 MINVALUE 1 INCREMENT 1",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_SEQUENCE",
+        "sequence_one",
+        "{\\"increment\\":1,\\"name\\":\\"sequence_one\\",\\"minValue\\":1,\\"start\\":1,\\"dataType\\":\\"bigint\\"}",
+      ],
+      "query": "INSERT INTO \\"public\\".\\"typeorm_metadata\\"(\\"database\\", \\"schema\\", \\"table\\", \\"type\\", \\"name\\", \\"value\\") VALUES (DEFAULT, DEFAULT, DEFAULT, $1, $2, $3)",
+    },
+  ],
+  "upQueries": Array [
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "DROP SEQUENCE IF EXISTS \\"sequence_one\\"",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_SEQUENCE",
+        "sequence_one",
+      ],
+      "query": "DELETE FROM \\"public\\".\\"typeorm_metadata\\" WHERE \\"type\\" = $1 AND \\"name\\" = $2",
+    },
+  ],
+}
+`;
