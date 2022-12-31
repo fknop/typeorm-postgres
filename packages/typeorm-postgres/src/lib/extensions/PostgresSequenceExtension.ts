@@ -1,26 +1,14 @@
-import {EntityMetadata, QueryRunner, RdbmsSchemaBuilderHook} from 'typeorm'
+import {RdbmsSchemaBuilderHook} from 'typeorm'
 import {SqlInMemory} from 'typeorm/driver/SqlInMemory'
 import {Query} from 'typeorm/driver/Query'
 import {RdbmsSchemaBuilder} from 'typeorm/schema-builder/RdbmsSchemaBuilder'
 import {PostgresQueryRunner} from 'typeorm/driver/postgres/PostgresQueryRunner'
 import {getPostgresMetadataArgsStorage} from '../metadata/TypeormPostgresArgsMetadata'
-import {
-  PostgresSequenceOptions,
-  SequenceDataType,
-} from '../options/PostgresSequenceOptions'
+import {PostgresSequenceOptions} from '../options/PostgresSequenceOptions'
 import {isNil} from '../utils/isNil'
 
 interface DatabaseSequenceRow {
-  sequence_schema: string
   sequence_name: string
-  data_type: SequenceDataType
-  numeric_precision: string
-  numeric_precision_radix: string
-  start_value: string
-  minimum_value: string
-  maximum_value: string
-  increment: string
-  cycle: 'YES' | 'NO'
 }
 
 const METADATA_TYPE = 'POSTGRES_SEQUENCE'
@@ -117,6 +105,7 @@ export class PostgresSequenceExtension {
 
         return metadatas
           .map((metadata) => {
+            // Might need to handle this a little better
             return JSON.parse(metadata.value) as PostgresSequenceOptions
           })
           .filter((sequence) => databaseSequences.includes(sequence.name))
