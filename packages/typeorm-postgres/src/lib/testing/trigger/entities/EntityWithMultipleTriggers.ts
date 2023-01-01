@@ -12,7 +12,7 @@ import {FunctionForTrigger} from '../functions/FunctionForTrigger'
   name: 'prevent_update_entity_2',
   when: 'BEFORE',
   event: ['UPDATE'],
-  execute: 'external_function()',
+  execute: 'prevent_update()',
 })
 @Entity()
 export class EntityWithMultipleTriggers {

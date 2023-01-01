@@ -1,5 +1,145 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`PostgresTriggerExtension generate migrations for EntityWithMultipleTriggers should generate proper create migrations 1`] = `
+SqlInMemory {
+  "downQueries": Array [
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "DROP FUNCTION IF EXISTS \\"prevent_update\\"",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_FUNCTION",
+        "prevent_update",
+      ],
+      "query": "DELETE FROM \\"public\\".\\"typeorm_metadata\\" WHERE \\"type\\" = $1 AND \\"name\\" = $2",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "DROP TABLE \\"entity_with_multiple_triggers\\"",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "DROP TRIGGER IF EXISTS \\"prevent_update_entity_2\\"",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_TRIGGER",
+        "prevent_update_entity_2",
+      ],
+      "query": "DELETE FROM \\"public\\".\\"typeorm_metadata\\" WHERE \\"type\\" = $1 AND \\"name\\" = $2",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "DROP TRIGGER IF EXISTS \\"prevent_update_entity\\"",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_TRIGGER",
+        "prevent_update_entity",
+      ],
+      "query": "DELETE FROM \\"public\\".\\"typeorm_metadata\\" WHERE \\"type\\" = $1 AND \\"name\\" = $2",
+    },
+  ],
+  "upQueries": Array [
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "
+    CREATE OR REPLACE FUNCTION prevent_update() RETURNS trigger AS $$
+    BEGIN
+      IF TG_OP = 'UPDATE' THEN
+        RAISE 'cannot update this record';
+      END IF;
+    END;
+    $$ LANGUAGE plpgsql;
+  ",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_FUNCTION",
+        "prevent_update",
+        "
+    CREATE OR REPLACE FUNCTION prevent_update() RETURNS trigger AS $$
+    BEGIN
+      IF TG_OP = 'UPDATE' THEN
+        RAISE 'cannot update this record';
+      END IF;
+    END;
+    $$ LANGUAGE plpgsql;
+  ",
+      ],
+      "query": "INSERT INTO \\"public\\".\\"typeorm_metadata\\"(\\"database\\", \\"schema\\", \\"table\\", \\"type\\", \\"name\\", \\"value\\") VALUES (DEFAULT, DEFAULT, DEFAULT, $1, $2, $3)",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "CREATE TABLE \\"entity_with_multiple_triggers\\" (\\"id\\" uuid NOT NULL DEFAULT uuid_generate_v4(), CONSTRAINT \\"PK_9ed986a52cb2bde29d671955e2a\\" PRIMARY KEY (\\"id\\"))",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "
+          CREATE OR REPLACE TRIGGER prevent_update_entity_2
+          BEFORE UPDATE
+          ON entity_with_multiple_triggers
+          FOR EACH STATEMENT
+          EXECUTE FUNCTION prevent_update();
+        ",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_TRIGGER",
+        "prevent_update_entity_2",
+        "
+          CREATE OR REPLACE TRIGGER prevent_update_entity_2
+          BEFORE UPDATE
+          ON entity_with_multiple_triggers
+          FOR EACH STATEMENT
+          EXECUTE FUNCTION prevent_update();
+        ",
+      ],
+      "query": "INSERT INTO \\"public\\".\\"typeorm_metadata\\"(\\"database\\", \\"schema\\", \\"table\\", \\"type\\", \\"name\\", \\"value\\") VALUES (DEFAULT, DEFAULT, DEFAULT, $1, $2, $3)",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "
+          CREATE OR REPLACE TRIGGER prevent_update_entity
+          BEFORE UPDATE
+          ON entity_with_multiple_triggers
+          FOR EACH STATEMENT
+          EXECUTE FUNCTION prevent_update();
+        ",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_TRIGGER",
+        "prevent_update_entity",
+        "
+          CREATE OR REPLACE TRIGGER prevent_update_entity
+          BEFORE UPDATE
+          ON entity_with_multiple_triggers
+          FOR EACH STATEMENT
+          EXECUTE FUNCTION prevent_update();
+        ",
+      ],
+      "query": "INSERT INTO \\"public\\".\\"typeorm_metadata\\"(\\"database\\", \\"schema\\", \\"table\\", \\"type\\", \\"name\\", \\"value\\") VALUES (DEFAULT, DEFAULT, DEFAULT, $1, $2, $3)",
+    },
+  ],
+}
+`;
+
 exports[`PostgresTriggerExtension generate migrations for EntityWithTrigger should generate proper create migrations 1`] = `
 SqlInMemory {
   "downQueries": Array [

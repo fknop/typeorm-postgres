@@ -45,35 +45,35 @@ describe('PostgresTriggerExtension', () => {
     })
   })
 
-  // describe('generate migrations for EntityWithMultipleTriggers', () => {
-  //   let dataSource: DataSource
-  //   beforeAll(async () => {
-  //     dataSource = await createTestingDataSource({
-  //       entities: [EntityWithMultipleTriggers],
-  //       schemaBuilderHooks: [
-  //         PostgresFunctionExtension.init({functions: [FunctionForTrigger]}),
-  //         PostgresTriggerExtension.init(),
-  //       ],
-  //       synchronize: false,
-  //       dropSchema: true,
-  //     })
-  //   })
-  //
-  //   afterAll(() => {
-  //     return closeTestingDataSource(dataSource)
-  //   })
-  //
-  //   it('should generate proper create migrations', async () => {
-  //     const queries = await dataSource.driver.createSchemaBuilder().log()
-  //     expect(queries).toMatchSnapshot()
-  //   })
-  //
-  //   it('should not generate migrations', async () => {
-  //     await dataSource.synchronize(false)
-  //     const queries = await dataSource.driver.createSchemaBuilder().log()
-  //
-  //     expect(queries.upQueries).toHaveLength(0)
-  //     expect(queries.downQueries).toHaveLength(0)
-  //   })
-  // })
+  describe('generate migrations for EntityWithMultipleTriggers', () => {
+    let dataSource: DataSource
+    beforeAll(async () => {
+      dataSource = await createTestingDataSource({
+        entities: [EntityWithMultipleTriggers],
+        schemaBuilderHooks: [
+          PostgresFunctionExtension.init({functions: [FunctionForTrigger]}),
+          PostgresTriggerExtension.init(),
+        ],
+        synchronize: false,
+        dropSchema: true,
+      })
+    })
+
+    afterAll(() => {
+      return closeTestingDataSource(dataSource)
+    })
+
+    it('should generate proper create migrations', async () => {
+      const queries = await dataSource.driver.createSchemaBuilder().log()
+      expect(queries).toMatchSnapshot()
+    })
+
+    it('should not generate migrations', async () => {
+      await dataSource.synchronize(false)
+      const queries = await dataSource.driver.createSchemaBuilder().log()
+
+      expect(queries.upQueries).toHaveLength(0)
+      expect(queries.downQueries).toHaveLength(0)
+    })
+  })
 })

@@ -53,24 +53,17 @@ export class PostgresTriggerExtension {
           if (trigger) {
             const target = trigger.target
 
-            console.log(target)
-            console.log(entityMetadatas)
-
             const matchingEntity = entityMetadatas.find(
               (entity) => entity.target === target
             )
 
-            if (!matchingEntity) {
-              throw new Error(
-                `Cannot find entity for PostgresTrigger ${trigger.target}`
-              )
+            if (matchingEntity) {
+              triggersToSync.push({
+                ...trigger.options,
+                tableName: matchingEntity.tableName,
+                functionName: this.getFunctionName(trigger.options),
+              })
             }
-
-            triggersToSync.push({
-              ...trigger.options,
-              tableName: matchingEntity.tableName,
-              functionName: this.getFunctionName(trigger.options),
-            })
           }
         })
 
