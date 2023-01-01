@@ -16,7 +16,7 @@ describe('PostgresFunctionExtension', () => {
       dataSource = await createTestingDataSource({
         entities: [],
         schemaBuilderHooks: [
-          PostgresFunctionExtension.init({functions: [AddIntegerFunction]}),
+          PostgresFunctionExtension.register({functions: [AddIntegerFunction]}),
         ],
         synchronize: false,
         dropSchema: true,

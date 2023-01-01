@@ -12,7 +12,11 @@ import {PostgresFunctionOptions} from '../options/PostgresFunctionOptions'
 const METADATA_TYPE = 'POSTGRES_FUNCTION'
 
 export class PostgresFunctionExtension {
-  static init({functions}: {functions: Function[]}): RdbmsSchemaBuilderHook {
+  static register({
+    functions,
+  }: {
+    functions: Function[]
+  }): RdbmsSchemaBuilderHook {
     class PostgresExtension implements RdbmsSchemaBuilderHook {
       private existingFunctions: WeakMap<
         RdbmsSchemaBuilder,

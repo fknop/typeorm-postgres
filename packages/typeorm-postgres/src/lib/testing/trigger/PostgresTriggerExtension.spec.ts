@@ -19,8 +19,8 @@ describe('PostgresTriggerExtension', () => {
       dataSource = await createTestingDataSource({
         entities: [EntityWithTrigger],
         schemaBuilderHooks: [
-          PostgresFunctionExtension.init({functions: [FunctionForTrigger]}),
-          PostgresTriggerExtension.init(),
+          PostgresFunctionExtension.register({functions: [FunctionForTrigger]}),
+          PostgresTriggerExtension.register(),
         ],
         synchronize: false,
         dropSchema: true,
@@ -51,8 +51,8 @@ describe('PostgresTriggerExtension', () => {
       dataSource = await createTestingDataSource({
         entities: [EntityWithMultipleTriggers],
         schemaBuilderHooks: [
-          PostgresFunctionExtension.init({functions: [FunctionForTrigger]}),
-          PostgresTriggerExtension.init(),
+          PostgresFunctionExtension.register({functions: [FunctionForTrigger]}),
+          PostgresTriggerExtension.register(),
         ],
         synchronize: false,
         dropSchema: true,

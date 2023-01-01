@@ -17,7 +17,7 @@ type PostgresTrigger = PostgresTriggerOptions & {
 }
 
 export class PostgresTriggerExtension {
-  static init(): RdbmsSchemaBuilderHook {
+  static register(): RdbmsSchemaBuilderHook {
     class PostgresExtension implements RdbmsSchemaBuilderHook {
       private existingTriggers: WeakMap<
         RdbmsSchemaBuilder,

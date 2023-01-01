@@ -17,7 +17,7 @@ describe('PostgresSequenceExtension', () => {
       dataSource = await createTestingDataSource({
         entities: [],
         schemaBuilderHooks: [
-          PostgresSequenceExtension.init({sequences: [SequenceOne]}),
+          PostgresSequenceExtension.register({sequences: [SequenceOne]}),
         ],
         synchronize: false,
         dropSchema: true,
@@ -46,7 +46,7 @@ describe('PostgresSequenceExtension', () => {
       const alterDataSource = await createTestingDataSource({
         entities: [],
         schemaBuilderHooks: [
-          PostgresSequenceExtension.init({sequences: [SequenceOneUpdated]}),
+          PostgresSequenceExtension.register({sequences: [SequenceOneUpdated]}),
         ],
         synchronize: false,
         dropSchema: false,
@@ -62,7 +62,9 @@ describe('PostgresSequenceExtension', () => {
       await dataSource.synchronize(false)
       const deleteDataSource = await createTestingDataSource({
         entities: [],
-        schemaBuilderHooks: [PostgresSequenceExtension.init({sequences: []})],
+        schemaBuilderHooks: [
+          PostgresSequenceExtension.register({sequences: []}),
+        ],
         synchronize: false,
         dropSchema: false,
       })

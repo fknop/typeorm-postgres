@@ -17,7 +17,11 @@ interface DatabaseSequenceRow {
 const METADATA_TYPE = 'POSTGRES_SEQUENCE'
 
 export class PostgresSequenceExtension {
-  static init({sequences}: {sequences: Function[]}): RdbmsSchemaBuilderHook {
+  static register({
+    sequences,
+  }: {
+    sequences: Function[]
+  }): RdbmsSchemaBuilderHook {
     class PostgresExtension implements RdbmsSchemaBuilderHook {
       private existingSequences: WeakMap<
         RdbmsSchemaBuilder,
