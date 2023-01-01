@@ -36,8 +36,6 @@ export class PostgresSequenceExtension {
           schemaBuilder,
           await this.getCurrentSequences(queryRunner)
         )
-
-        return Promise.resolve()
       }
 
       beforeAll(
@@ -52,12 +50,8 @@ export class PostgresSequenceExtension {
         sequences?.forEach((sequence) => {
           const sequenceToSync = args.filterSequences(sequence)
 
-          if (sequenceToSync.length > 1) {
-            throw new Error(`${sequence.name} is registered multiple times`)
-          }
-
-          if (sequenceToSync[0]) {
-            sequencesToSync.push(sequenceToSync[0].options)
+          if (sequenceToSync) {
+            sequencesToSync.push(sequenceToSync.options)
           }
         })
 

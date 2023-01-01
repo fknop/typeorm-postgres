@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`typeormPostgres generate migrations should generate proper create migrations 1`] = `
+SqlInMemory {
+  "downQueries": Array [
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "DROP FUNCTION IF EXISTS \\"add_integer\\"",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_FUNCTION",
+        "add_integer",
+      ],
+      "query": "DELETE FROM \\"public\\".\\"typeorm_metadata\\" WHERE \\"type\\" = $1 AND \\"name\\" = $2",
+    },
+  ],
+  "upQueries": Array [
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": undefined,
+      "query": "
+      CREATE OR REPLACE FUNCTION add_integer(a integer, b integer) RETURNS integer AS $$
+      DECLARE result integer;
+      BEGIN
+          RETURN a + b;
+      END;
+      $$ LANGUAGE plpgsql STABLE;
+  ",
+    },
+    Query {
+      "@instanceof": Symbol(Query),
+      "parameters": Array [
+        "POSTGRES_FUNCTION",
+        "add_integer",
+        "
+      CREATE OR REPLACE FUNCTION add_integer(a integer, b integer) RETURNS integer AS $$
+      DECLARE result integer;
+      BEGIN
+          RETURN a + b;
+      END;
+      $$ LANGUAGE plpgsql STABLE;
+  ",
+      ],
+      "query": "INSERT INTO \\"public\\".\\"typeorm_metadata\\"(\\"database\\", \\"schema\\", \\"table\\", \\"type\\", \\"name\\", \\"value\\") VALUES (DEFAULT, DEFAULT, DEFAULT, $1, $2, $3)",
+    },
+  ],
+}
+`;
